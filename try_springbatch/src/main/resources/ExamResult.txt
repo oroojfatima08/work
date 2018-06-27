@@ -1,0 +1,6 @@
+Ben      |     56
+Jimmy    |     39
+Tom      |     61
+Kevin    |     59
+Rita     |     92
+Harry    |     83
