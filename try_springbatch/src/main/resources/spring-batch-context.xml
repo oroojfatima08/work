@@ -38,7 +38,7 @@
 
 	</bean>
 
-	<!-- XML ItemWriter which writes the data in XML format -->
+	<!-- XML ItemWriter which writes the data in XML format 
 	<bean id="xmlItemWriter" class="org.springframework.batch.item.xml.StaxEventItemWriter">
 
 		<property name="resource" value="file:xml/examResult.xml" />
@@ -46,6 +46,7 @@
 		<property name="rootTagName" value="UniversityExamResultList" />
 
 		<property name="marshaller">
+		
 
 			<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
 				<property name="classesToBeBound">
@@ -57,6 +58,32 @@
 
 		</property>
 
+	</bean>-->
+	
+	<!-- ItemWriter writes a line into output flat file -->
+	<bean id="flatFileItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+
+		<property name="resource" value="file:csv/examResult.txt" />
+
+		<property name="lineAggregator">
+
+			<!-- An Aggregator which converts an object into delimited list of strings -->
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+
+				<property name="delimiter" value="|" />
+
+				<property name="fieldExtractor">
+
+					<!-- Extractor which returns the value of beans property through reflection -->
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="studentName, percentage" />
+					</bean>
+				</property>
+			</bean>
+		</property>
 	</bean>
 
 	<!-- Optional ItemProcessor to perform business logic/filtering on the input records -->
@@ -72,7 +99,7 @@
 	<batch:job id="examResultJob">
 		<batch:step id="step1">
 			<batch:tasklet transaction-manager="transactionManager">
-				<batch:chunk reader="flatFileItemReader" writer="xmlItemWriter"	processor="itemProcessor" commit-interval="10" />
+				<batch:chunk reader="flatFileItemReader" writer="flatFileItemWriter"	processor="itemProcessor" commit-interval="10" />
 			</batch:tasklet>
 		</batch:step>
 		<batch:listeners>

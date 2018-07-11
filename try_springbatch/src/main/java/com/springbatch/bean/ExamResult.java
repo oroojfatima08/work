@@ -3,15 +3,14 @@ package com.springbatch.bean;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@SuppressWarnings("restriction")
-@XmlRootElement(name = "ExamResult")
+//@XmlRootElement(name = "ExamResult")
 public class ExamResult {
 
 	private String studentName;
 
 	private double percentage;
 
-	@XmlElement(name = "StudentName")
+	//@XmlElement(name = "StudentName")
 	public String getStudentName() {
 		return studentName;
 	}
@@ -21,7 +20,7 @@ public class ExamResult {
 	}
 
 
-	@XmlElement(name = "Percentage")
+	//@XmlElement(name = "Percentage")
 	public double getPercentage() {
 		return percentage;
 	}
